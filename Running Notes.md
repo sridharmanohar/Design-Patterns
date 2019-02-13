@@ -77,3 +77,60 @@ mechanism.
 16. The problem with Factory method pattern in this case is there is no option to send only the few required params hence all params will have to be sent by the client while creating/requesting for the desired object and for optionals NULL value must be present, hence factory method pattern is not preferred in this scenario.
 <br/>
 
+# STRUCTRAL PATTERNS
+1. These patterns provide different ways to create a class structure.
+<br/>
+
+## Adapter Pattern
+1. The main purpose of this to make two incompatible interfaces work together. The thing that joins these two incompatible interfaces is the adapter.
+2. Consider Adapter pattern with an example of a mobile charger. The input voltage from the socket is 240V but the mobile can take in 3V, here comes the mobile charger which acts as an adapter b/w the input socket and the mobile.
+3. Adpater pattern can be implemented using class based and object based approaches. In the class based approach, the pattern uses inheritance whereas in the Object based approach it makes use of composition.
+4. This is probably ore useful when you as client are making of two APIs.
+5. Adapter is generally used when you come across two incompatible classes that need to work together.
+<br/>
+
+## Proxy Pattern
+1. Proxy pattern provides proxies or placeholders to an object mainly to control or limit access to the object in question.
+2. For instance, let's say there is a class which executes some commands on the server and you want to limit access to this class methods only to admins then a proxy pattern can be used.
+3. Proxy pattern can be used to separate the access control logic from the class that needs to implement business logic. This leads to Single Responsibility Principle.
+4. Proxies control access to an object.
+<br/>
+
+## Facade Pattern
+1. The main intent of this pattern is to hide the complex chunk of code and provide a simpler API for usage.
+2. The difference factory and facade is that: 
+2a. factory deals with object creation by hiding implementation details and facade deals with providing a simple higher level api for usage.
+2b. factory can return a different object everytime depending on the input whereas facade will return the same object but it makes ths api simpler to use.
+3. The facade is probably more useful when you are designing API for the client to use.
+4. Difference between Facade and Adapter:
+4a. Facade promotes creating a new interface to resolve the complexity and make the usage ease whereas Adapter makes use of the existing interfaces.
+4b. Adapter opposes the creation of a new interface to solve the problem it is trying to solve.
+<br/>
+
+## Bridge Pattern
+1. Bridge pattern basically provides a bridge between two set of interface hierarchies where one is dependent on the other for some functionality.
+2. For example, let's consider a Missile interface which has types of missiles as its implementations and consider a Igniter interface which has different kinds of igniting techniques as its implementations. For the missile to take off it needs to be ignited, so the Missile implementations depend on the particular type of Ignitor to ignite the missile. Such problems are solved by Bridge design pattern.
+3. This pattern uses object composition to solve such problems.
+4. This pattern differs with Adapter pattern in thw following ways:
+4a. Adapter focuses on resolving the incompatabilities between two existing interfaces.
+4b. Adapter makes two independently designed classes to work together.
+4c. Bridge provides a bridge between two implementations where one is dependent on the other for some work.
+<br/>
+
+# BEHAVIORAL PATTERNS
+1. These patterns identify communication patterns between objects and assign responsibilities to objects.
+<br/>
+
+## Template Pattern
+1. This pattern defines a skeleton of the algorithm and the implementation of certain steps is done by subclasses.
+2. hence, in this pattern, we have method w/ concrete implementation and methods w/o any implementation.
+3. This pattern is applicable to a problem where certain steps are common for all implementations and other steps will vary from implementation to implementation. And there is also a certain sequence in which these steps have to be executed.
+4. This pattern uses inheritance.
+<br/>
+
+## Strategy Pattern
+1. This pattern enables us to select an algorithm at runtime.
+2. This pattern specifies behaviors as interfaces and these interfaces are implemented by specific classes. For e.g. A car has brake and accelerate functionalities, both these functionalities will be defined as interfaces and classes implement them.
+3. This pattern is basically applicable when functionalities/functionality has different strategies.
+4. Strategy pattern uses composition over inheritance.
+<br/>
