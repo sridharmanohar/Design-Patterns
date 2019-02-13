@@ -98,23 +98,23 @@ mechanism.
 
 ## Facade Pattern
 1. The main intent of this pattern is to hide the complex chunk of code and provide a simpler API for usage.
-2. The difference factory and facade is that: 
-2a. factory deals with object creation by hiding implementation details and facade deals with providing a simple higher level api for usage.
-2b. factory can return a different object everytime depending on the input whereas facade will return the same object but it makes ths api simpler to use.
+2. The difference factory and facade is that: <br/>
+2a. factory deals with object creation by hiding implementation details and facade deals with providing a simple higher level api for usage.<br/>
+2b. factory can return a different object everytime depending on the input whereas facade will return the same object but it makes ths api simpler to use.<br/>
 3. The facade is probably more useful when you are designing API for the client to use.
-4. Difference between Facade and Adapter:
-4a. Facade promotes creating a new interface to resolve the complexity and make the usage ease whereas Adapter makes use of the existing interfaces.
-4b. Adapter opposes the creation of a new interface to solve the problem it is trying to solve.
+4. Difference between Facade and Adapter:<br/>
+4a. Facade promotes creating a new interface to resolve the complexity and make the usage ease whereas Adapter makes use of the existing interfaces.<br/>
+4b. Adapter opposes the creation of a new interface to solve the problem it is trying to solve.<br/>
 <br/>
 
 ## Bridge Pattern
 1. Bridge pattern basically provides a bridge between two set of interface hierarchies where one is dependent on the other for some functionality.
 2. For example, let's consider a Missile interface which has types of missiles as its implementations and consider a Igniter interface which has different kinds of igniting techniques as its implementations. For the missile to take off it needs to be ignited, so the Missile implementations depend on the particular type of Ignitor to ignite the missile. Such problems are solved by Bridge design pattern.
 3. This pattern uses object composition to solve such problems.
-4. This pattern differs with Adapter pattern in thw following ways:
-4a. Adapter focuses on resolving the incompatabilities between two existing interfaces.
-4b. Adapter makes two independently designed classes to work together.
-4c. Bridge provides a bridge between two implementations where one is dependent on the other for some work.
+4. This pattern differs with Adapter pattern in thw following ways:<br/>
+4a. Adapter focuses on resolving the incompatabilities between two existing interfaces.<br/>
+4b. Adapter makes two independently designed classes to work together.<br/>
+4c. Bridge provides a bridge between two implementations where one is dependent on the other for some work.<br/>
 <br/>
 
 # BEHAVIORAL PATTERNS
