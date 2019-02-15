@@ -435,7 +435,94 @@
 2. A transaction that spans multiple requests is known as LT.
 <br/>
 
+## Request Transaction
+1. Open the transaction at the start of the request and close it at the end of it thus avoiding transactions spanning multiple requests.
+<br/>
 
+## Late Transaction
+1. The variation of a request transaction is to open the transaction as late as possible.
+2. Do all the reads outside the transaction and open the transactions only when you need to do updates on it.
+3. This also means there is no concurrency control until the transaction is opened and hence might lead to inconsistent reads.
+4. Not really worth doing this.
+<br/>
+
+# OFFLINE CONCURRENCY PATTERNS
+1. Optimistic Offline Lock, Pessimistic Offline Lock, Coarse Grained Lock, Implicit Lock.
+<br/>
+
+## Optimistic Offline Lock
+1. This essentially uses optimistic concurrency control across the business transaction.
+2. The only limitation w/ this is you only find out that the business transaction is going to fail only when you try to commit it.
+3. For e.g. User's might have spent an hour into entering lease details and if you get a failure after doing all that work is terrible.
+<br/>
+
+## Pessimistic Offline Lock
+1. This uses pessimistic concurrency control.
+2. But this makes harder to achieve actually concurrency feature.
+<br/>
+
+## Coarse-Grained Lock
+1. This allows you to manage concurrency of a group of objects.
+2. Domain knowledge is required to choose which group of objects to be managed.
+3. Difficult to achieve and complex.
+<br/>
+
+## Implicit Locks
+1. This takes the decision to lock away from the developers hands and leaves it to the framework being used.
+2. A Layer Supertype (some framework) will take the decision of what to lock and when.
+<br/>
+
+# SESSION STATE PATTERNS
+1. The details of a shopping cart are an example of session state, meaning, the data in the cart is relevant only to that particular session.
+2. And this state is within a business transaction which means that it's separated from other sessions and their business transactions.
+3. Session state is different from Record data, which is long-term persisted data and is visible to all sessions.
+4. Session state needs to be committed to become Record Data.
+5. There are 3 basic ways to store session state: Client Session State, Server Session State and Database Session State.
+<br/>
+
+## Client Session State
+1. Client Session State stores data on the Client.
+2. There are several ways of doing this.
+3. One is to encode data in the URL 
+4. Use Cookies.
+5. Serialize the data into some hidden fields in web forms.
+6. Hold the data in objects in rich clients.
+7. In Client Session State, session data will have to be transferred across the wire b/w requests. If its only a few fields, not a problem, but larger data will require large transfers. So bandwidth will be under stress.
+8. So basically Client Session State should not be used unless the amount of data is pretty small.
+9. You also have to worry about security and integrity.
+10. Unless you encrypt the data there is a high chance it being hacked and modified by unwanted sources.
+11. This can be used for session ids and for session data that very small.
+<br/>
+
+## Server Session State
+1. Holding the data on the server side.
+2. Could be as simple as holding the data in-memory b/w requests.
+3. Or an object can be stored on the app servers local file system or in a shared data source.
+4. This could also be stored as a db table w/ session id as the key and the serialized object as value.
+5. This may or may not survive a server or a n/w connection crash depending whether the session object is backed by a nonvolatile store.
+6. This is the easiest in terms of dev especially when you dont have to persist the session b/w requests.
+7. Preference should be given to this.
+<br/>
+
+## Database Session State
+1. This is also server-side storage.
+2. But this involves breaking up the data into tables and fields and large amount of the storage is required in tables as this is for long-persistence. 
+3. This can cope w/ a client crash, a server crash and a n/w connection crash.
+4. This in the beginning might not seem complex, but this eventually becomes.
+5. All the 3 approaches are not mutually exclusive, can use a combination of these, of course, that makes things tougher.
+6. This should be given last preference unless you need failover and clustering for managing session data.
+<br/>
+
+# DISTRIBUTION PATTERNS
+1. When you are working w/ a remote interface, each call is expensive, as a result you need to reduce the no.of calls, that means you need to transfer more data w/ each call.
+2. One way to do is use a lot of params and the other is to use a Data Transfer Object.
+<br/>
+
+## Data Transfer Object
+1. A DTO is an object that can hold all the data required for a remote call.
+2. DTO needs to be serialized to go across the connection.
+3. Main reason for a DTO is to batch up what would be multiple remote calls into a single call.
+<br/>
 
 
 
