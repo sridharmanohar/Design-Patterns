@@ -146,3 +146,40 @@
 7. If the Domain logic is complex, then Data mapper is kind of an appropriate option for Domain Model.
 8. https://richard.jp.leguen.ca/tutoring/soen343-f2010/tutorials/implementing-table-data-gateway/
 <br/>
+
+# OBJECT-RELATIONAL BEHAVIORAL PATTERNS
+1. The major difficulty when it comes to O/R mapping is its behavioral problem i.e. how to get the various objects to load and save themselves to the db.
+2. When you load many objects you should ensure concurrency is handled, state is maintained and referential integrity is also handled before you commit them back.
+3. Some patterns that deal w/ these behavioral issues are Unit of Work, Identity Map and Lazy Load.
+<br/>
+
+## Unit of Work
+1. A UoW keeps track of all objects read from the db, together w/ all objects modified in any way.
+2. It also handles how updates are made to the db.
+3. Instead of the application prmgr explcitly invoking save, we tell the UoW to commit. The UoW then puts all the operations to be performed in a sequence and performs it.
+4. W/o a UoW, typically the domain layer acts as a controller, deciding when to read and write to the db.
+5. A UoW basically maintains a list of objects affected by a business transaction and coordinates the writing out of changes and the resolution of concurrency problems.
+<br/>
+
+## Identity Map
+1. When you load objects you need to be careful that you are not loading the same one twice. If this happens, that means, there is more than one in-memory object that corresponds to the same db row and when you update such a thing, things will go wrong.
+2. In order to prevent this from happening, every time you read you need to keep a record of that in the Identity Map.
+3. Each time you read in some data, first check IM to see this does not already exists in it, If yes, then return a second reference to the same one, that way all updates are properly coordinated.
+4. Another benefit of an IM is you will not be doing unnecessary db calls.
+5. But the primary purpose of an IM is to maintain correct identities and not to boost performance.
+6. So, an IM basically keeps track of all objects that have been read from the db in a single business transaction.
+<br/>
+
+## Lazy Load
+1. If you are using Domain Model, things are generally arranged in such a way that, when you load one object all it's associated objects also are automatically objects. This can lead to memory/performance issues.
+2. W/ Lazy Loading, only what needs gets loaded at the same time keeping the gate open to load others as and when required.
+3. There are 4 varieties of Lazy Loading: Lazy initialization, Virtual proxy, Value Holder and Ghost.
+<br/>
+
+## Reading in Data
+1. Some rule of thumb while reading data in order to avoid performance issues are as follows.
+2. Try to pull multiple rows at once. Don't do multiple queries on the same table to get multiple rows. It's almost always better to pull back too much data than too little.
+3. Another way to avoid going to the db again and again is to use joins. Using joins you get data from multiple related tables all in one go. Although the resulting record set might look odd but this will definitely speed things up.
+4. However, one thing about joins is, db's are generally optimized to handle 3 to 4 joins per query beyond which performance will take a hit.
+<br/>
+
