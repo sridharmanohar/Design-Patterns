@@ -183,3 +183,263 @@
 4. However, one thing about joins is, db's are generally optimized to handle 3 to 4 joins per query beyond which performance will take a hit.
 <br/>
 
+# OBJECT-RELATIONAL STRUCTURAL PATTERNS
+1. When talking about O/R mapping it is these structural patterns which are generally talked about in order to map in-memory objects and db tables.
+2. These patterns aren't usually relevant to TDG, but you may use a few of them for RDG or Active Record.
+3. You will probably need all of them when using a Data Mapper.
+4. These patterns are : Identity Field, Foreign key Mapping, Association Table Mapping, Dependent Mapping, Embedded Value, Serialized LOB, Single Table Inheritance, Class Table Inheritance, Concrete Table Inheritance, Inheritance Mappers.
+<br/>
+
+## Identity Field
+1. This basically saves the database ID field in an object in order to maintain identity b/w an in-memory object and a db row.
+2. All you do is store the primary key of the db row in the object's field.
+<br/>
+
+## Foreign Key Mapping
+1. A Foreign Key Mapping maps an object reference to a foreign key in the db.
+
+## Association Table Mapping
+1. This is basically to deal w/ many-to-many associations.
+2. This is like an object having a collection as one of its fields.
+3. For e.g. an Employee can have multiple Skills and one skill can be associated w/ multiple employees. To map such a thing, let's say, there is an Employees table w/ all employee details and a Skills table w/ all skills, then a skill-employee table will contain many-to-many mapping. This is called ATM.
+<br/>
+
+## Embedded Value
+1. This is about mapping a field of an object into several fields of a table.
+2. FOr instance, your object has a field called dateRange, you can split this into start date and end date fields in the db table since you won't have a dataRange data type in the db table.
+<br/>
+
+## Serialized LOB
+1. Saves a graph of objects by serializing them in a single large object, which it stores in a db field.
+2. Objects dont have to be persisted as table rows related to each other. Another form of persistence is serialization, where a whole graph of objects is written out as a single large object (LOB) in a table.
+3. These LOBs can be saved as BLOB or CLOB.
+4. Hierarchical structures such as org. charts and bills of materials are where a Serialized LOB can save a lot of db trips.
+5. But the downside is that the SQL isn't aware of what is happening, so you can't make portable queries against the data structure.
+6. Serialized LOBs are best used when you dont want to query for the stored structure.
+7. Usually this is best suited for relatively isolated group of objects that make part of an application.
+8. If you use it too much it ends up turning your db in a mere transactional file system.
+<br/>
+
+## Working with Collections
+1. Using unordered sets while using collections is better when you have to write the data back to the db.
+2. Also systems which defer referential integrity checking to the end of the transaction is also better otherwise the db will check on every write.
+<br/>
+
+## Inheritance
+1. A class hierarchy linked by inheritance can't be just represented in a db because there is no inheritance in sql.
+2. For any inheritance structure there are 3 options: Single Table Inheritance, Concrete Table Inheritance and Class Table Inheritance.
+3. STI: one table for all classes in the hierarchy i.e. all fields in all the classes of the hierarchy will be put in only one table.
+4. CoTI: one table for each concrete class in the hierarchy.
+5. CaTI: one table for each class in the hierarchy.
+6. The trade-offs b/w these options is b/w duplication of data structures and speed of access.
+7. CaTI is the simplest, but it needs multiple joins to load a single object which can affect performance.
+8. CoTI avoid joins allowing you to pull a single object from one table but it is brittle to changes. Any changes to the super class and we have to remember to alter all the tables.
+9. CoTI: The lack of superclass table can make key management awkward and can get in the way of referential integrity.
+10. STI: biggest downside is it's wasted space. Since one table will have to have all the cols of all classes, some cols for some rows will have no data and that will lead to wasted space.
+11. All 3 options are not mutually exclusive. You can make some classes to have STI and some to have CaTI.
+12. There is no clear cut winner amongst these 3 options.
+13. CoTI: includes all interfaces and superclasses in each concrete table.
+<br/>
+
+## Building the Mapping
+1. When you are doing the schema yourself and if the domain logic is moderate to complex you can use a Transaction Script or Table Module design. In this case you can design the db around the data using classic db design techniques and use a RDG or a TDG to pull the sql away from the domain logic.
+2. If you're using a Domain Model, then build your Domain Model w/o regard to the db in order to simplify the domain logic and treat the db design as a way of persisting the object's data. And in this case you might consider an Data Mapper or an Active record.
+3. Building the model first is a good approach but this should be done only in short-iterative cycles. Don't do domain modelling for 6 months and then create the db, if any performance issues crop up here then refactoring will be very costly.
+4. And in cases where the schema already exists, and if the domain logic is simple, you can use RDG or TDG classes that mimic the db and layer domain logic on top of this.
+4a. And if the domain logic is complex then you will need a Domain Model which is highly unlikely to match the db design hence gradually build up the Domain Model and use Data Mappers to persist the data to the existing db.
+<br/>
+
+# OBJECT-RELATIONAL METADATA MAPPING PATTERNS
+1. Metadata Mapping, Query Object, and Repository.
+<br/>
+
+## Metadata Mapping
+1. This is about putting down all the mappings in a metadata file that details how columns in the db table map to the fields of an object.
+2. Commercial O/R tool use a metadata mapping file.
+3. These mappings can be used by the generic code to perform reading, updating and inserting the data.
+4. the Hibernate mapping file is an example of this.
+<br/>
+
+## Query Object
+1. A Query Object allows developers to build queries in terms of in-memory objects and data in such a way that the dev. need not know either SQL or the details of the relational schema.
+2. The Query Object can then use Metadata Mapping to convert the object based expressions into appropriate sql expressions.
+<br/>
+
+## Repository
+1. A system w/ a complex domain model benefits from a layer such as the one provided by the Data Mapper which isolates domain objects from the details of the db access code.
+2. In such systems it can be worthwhile to build another layer of abstraction over the mapping layer where query construction code is concentrated.
+3. This is useful when there are a large no.of domain classes or heavy querying.
+4. And this layer helps minimize duplicate query logic.
+5. A Repository basically mediates b/w the domain and data mapping layers, acting like an in-memory domain object collection.
+6. Client objects constructs query specs declaratively and submit to the rep. for satisfaction.
+7. Objects can be added to or removed from the repository, as they can from a simple collection of objects, and the mapping code encapsulated by the rep. will carry out the appropriate operations behind the scene.
+8. This concept is more famous in Domain-Drive Design.
+<br/>
+
+## Database Connections
+1. Queries to the db return a Record Set.
+2. Disconnected Record Sets are those which can be manipulated even after the connection to the db is closed.
+3. Connected Recrd Sets can be only be manipulated until the connection is open.
+4. Connection creation is an expensive process hence connection pooling comes to the rescue.
+5. When you need a connection fetch it from the pool and once done, release it back to the pool for someone else to use.
+6. Since connections are mostly tied to transactions, a good way to manage them is to tie them to a transaction. Let the transaction deal w/ the connection so that you can only focus on the transaction.
+7. You know when to begin the transaction and the trannsaction will open/fetch the connection and once you close the transaction (which you know when to), the connection will be closed by the transaction or release it to the pool.
+8. If you are doing things outside of your transaction then you can fetch your connections straight from the pool and release them back later.
+<br/>
+
+## Misc Points
+1. If you are using TDG, use column name indices as the result set returned is used by code that runs find operations on the gateway.
+2. Its worth having simple test cases for crud operations for each db mapping structure, this will help you find out when your sql gets out-of-synch w/ the code.
+3. Its always better to use static SQL that is precompiled than using Dynamic SQL.
+4. Avoid using string concatenations while forming SQL queries.
+5. Batching multiple SQL queries in a singel db call is also a better way for performance.
+<br/>
+
+# WEB PRESETATION PATTERNS
+1. Basically 2 mains forms of structuring a program on a web server: scripts and server pages.
+2. A CGI Script or a Servlet is an example of a Script but writing HTML in these becomes very difficult.
+3. JSP, PHP and ASP are examples of server pages. HTML and processing logic both can be embedded in the server page.
+4. Server pages works well for little processing tasks. Things get a lot more messy when many decisions are to be made based on the i/p.
+5. Because the script style works best for interpreting a request and server page style works best for formatting a response, the obvious option was to use script for request int. and server page for resp. formatting.
+6. This separation lead to the formation of Model View Controller pattern.
+7. You can consider the controller in the MVC as an input controller.
+8. The view and controller in the mvc have their own patterns.
+9. All the patterns that you will come across here are: MVC, Page Controller, Front Controller, Application Controller, Template View, Transform View and Two-Step View.
+<br/>
+
+## Model View Controller
+1. Let's refer the Controller in the MVC as an Input Controller.
+2. In an MVC, the request comes in to an input controller, which pulls off information from the request, forwards the business logic to the appropriate model object. 
+3. The model object talks to the data source and does what is asked in the request and gathers information for the response, when done control is transferred back to the input controller w/ the information gathered. 
+4. The i/p controller looks at the results and decides which view is needed to display the response and then passes control to the view along w/ the response data.
+5. Primary reason to apply MVC is to totally separate Models from the View i.e. the Web presentation, thereby making modifications to presentations easier w/o any cascading effects.
+<br/>
+
+## Application Controller
+1. The purpose of AC is to handle flow of the application, deciding which screens to appear in which order.
+2. AC can be part of the presentation layer or as a separate layer b/w the presentation and the domain.
+3. AC can be written independent of the presentation.
+4. If your app. has a lot of logic around which screens to display when and the navigation around them then ACs are useful. Or If the mapping b/w the pages and the actions on the domain is complex, then also ACs are useful.
+5. Bottom line is, If the machine is in control of the screen flow, you need an AC. If the user is in control of the screen flow, then you dont need an AC.
+<br/>
+
+## Page Controller
+1. This is an i/p controller pattern.
+2. Here the idea is to have one i/p controller for each page.
+3. This can be also be modified to have one i/p controller for each action like a button click or a link click.
+<br/>
+
+## Front Controller
+1. This is also an i/p controller pattern.
+2. W/ any i/p controller there are 2 responsibilities - handling the HTTP request and deciding what to do w/ it.
+3. In a FC, only one object handles all requests. 
+4. The single handler interprets the URL to figure what kind of request it's dealing w/, carries out common behavior and the dispatches to command objects for behavior specific to the request.
+<br/>
+
+## Template View
+1. This is a View pattern.
+2. TeV basically allows you to write presentation logic in the structure of the page alongside w/ any dynamic content that you wish to write.
+3. That means, both the presentation logic and any other programming/domain logic can also be written in the same page.
+4. Server pages like JSP, PHP and ASP are examples of this.
+5. Provides flexibility but not a practical way for real enterprise applications. Makes code messy and unreadable.
+<br/>
+
+## Transform View
+1. This is also a View Pattern.
+2. TrV is very useful if you are working w/ domain data that is in XML format or can easily be converted to it.
+3. XSLT is an example of TrV.
+4. An i/p controller picks the appropriate XSLT stylesheet and applies it to the XML obtained from the model.
+<br/>
+
+## Two-Step View
+1. This is also a View Pattern.
+2. In a single-stage view, there will be one view component for each screen in the application.
+3. The view takes the domain data and renders it in html.
+4. In a two-stage view, there is one first-stage view for each screen but only one second-stage view for the whole application.
+5. This makes global changes to HTML easy since there is only one object to make changes to alter every screen on the site.
+6. This is also useful when you have a Web app whose services are used by multiple front-end customers like a airline reservation system. Multiple airlines maybe using the same system hence they can inherit the same second-stage view and apply their own first-stage view on top of it.
+7. Can also be used to output to different types of devices. Sharing the same logical view but w/ different first-stage view.
+<br/>
+
+## Concurrency
+1. The reason because of which enterprise app developers can get away w/ a naive understanding of concurrency is because of the Transaction Managers.
+2. Transactions provide a framework that help us avoid most of the tricky aspects of concurrency.
+3. But we still have to manage concurrency for data that spans transactions.
+<br/>
+
+## Offline concurrency
+1. Concurrency control for data that is manipulated during multiple transactions.
+<br/>
+
+## Lost Updates
+1. Let's say A and B are going to work on the same file on different methods.
+2. A edits the file first and a moment later B also starts editing the file and B finishes before A and saves the file.
+3. Now when A first started editing the file, he dint have the changes made by B and when he saves his changes all of B's updates will be lost.
+<br/>
+
+## Request
+1. This corresponds to a single call from the outside world which the application is currently working on and might optionally send a response as well.
+<br/>
+
+## Session
+1. It is a long-running interaction b/w Client and Server.
+2. It may consist of a single request or multiple requests.
+3. Commonly session begins when the user logs in and lives through his interactions w/ the application and ends when he logs out.
+<br/>
+
+## Thread
+1. A light-weight active agent within a single process.
+2. Threads can support multiple requests within a single process.
+3. Threads share memory and such sharing leads to concurrency issues.
+<br/>
+
+## Process
+1. A process is a heavy-weight execution context which usually provides a lot of isolation for the internal data it works on.
+<br/>
+
+## Transactions
+1. Several requests/interactions usually b/w an application and a db.
+<br/>
+
+## Immutable Data
+1. The whole problem of concurrency occurs only when the data you are sharing can be modified.
+2. This does not arise w/ immutable data since it cant be modified.
+3. Ofcourse cant make the entire data as immutable since the whole point of an application is to modify data but having as much as possible immutable data is best.
+<br/>
+
+## Optimistic Locking
+1. Taking the example of a source code control system.
+2. If A and B want to edit the same file.
+3. Both A and B can check out the file.
+4. Let's say B will make changes first and commits it, nothing happens, changes gets saved.
+5. When A is about to commit his changes then the optimistic locking gets kicked in and rejects the commit. Now its for A to figure out the change and merge the changes accordingly.
+6. That is here, multiple people can edit the same file at the same time and locking mechanism gets kicked in only when commiting changes.
+7. This is about conflict detection.
+<br/>
+
+## Pessimistic Locking
+1. In this, whoever checks out the file first will prevent others to check out until it is not comitted.
+2. That is here, only one person can work on one file at a time.
+3. This is about conflict prevention.
+<br/>
+
+## ACID
+1. Atomicity: All or nothing. All changes done within an transaction must completely commit or fully roll back, no half-baked work.
+2. Consistency: All resources of the system must be in a consistent, non-corrupt state at the start and completion of a transaction.
+3. Isolation: The result of one transaction must not be visible any other open transaction until that transaction commits successfully.
+4. Durability: Any result of a committed transaction must be permanent, basically means, that data must survive any crash.
+<br/>
+
+## Long Transaction
+1. Transactions should generally be kept as short as possible and not span across multiple requests.
+2. A transaction that spans multiple requests is known as LT.
+<br/>
+
+
+
+
+
+
+
+
+
