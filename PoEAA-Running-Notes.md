@@ -22,4 +22,46 @@
 21. Horizontal Scalability means adding more servers. Also called as scaling out.
 22. When building enterprise applications, it is often better to build for hardware scalability rather than capacity or even efficiency. Because scalability gives the option to increase performance if needed and it is easier to do.
 23. Often designers do complicated things that will improve the capacity on a particular hardware platform when it might actually be cheaper to buy ore hardware.
+24. Patterns: each pattern describes a problem which occurs over and over again and then describes the core of a solution to that problem in such a way that you can use this solution a millions times over w/o ever doing it the same way twice.
+25. The key thing about patterns is that they do not offer a complete solution which you can apply blindly, that is why they fail miserably. Patterns are half-baked solutions and every time you apply one of these you will have to fill-in with your own tweak to solve the problem.
+26. But it's important to first identify which pattern to apply and then apply your engineering skills to tweak it to solve the problem.
+27. Each pattern is relatively independent but patterns are not isolated from each other. Often one pattern leads to another or one occurs only if another is around.
+28. The best way to remember patterns is to draw a sketch using UML diagram or something similar.
+29. This book is not a exhaustive list of patterns. You yourself will come across many patterns as you look at more and more enterprise applications and hopefully can come up with suitable solutions that can be applied to similar repeating patterns.
+<br/>
+
+## Layering
+1. Advantages of breaking down a system into layers are as follows.
+2. you can understand one layer w/o knowing the full details of the other layers. for e.g. you can work w/ UI part w/o understanding the db part.
+3. you can replace one layer w/ other compatible layer.
+4. you can minimize dependencies b/w layers and make changes to only one layer w/o affecting others.
+5. Disadvantages of layering are as follows;
+6. this can introduce cascading effects. If you want to add a field on the UI layer, you will also have to add in the business logic and in the database. This change goes into every layer.
+7. extra layers can harm performance.
+8. The most important thing w/ layering is to decide which layers to have and what the resposnbility of each layer should be.
+<br/>
+
+## Evolution of Layers in Enterprise Applications
+1. Started w/ Client-Server systems. Two-layered arch.
+2. The client held the UI and other application code and the server was usually a relational db.
+3. If the application was all aboout display and update of simple relational data then this 2-layered arch was enough.
+4. For systems that had domain logic like business rules, validations, calculations etc. the 2-layered arch was not enough since you can't write the domain logic in the client code and couple it w/ the UI code. And hence, people started putting the domain logic inside the db using stored procs and triggers which gives limited structring mechanisms and hard to maintain code.
+5. In order to solve this, 3-layered systems were introduced. One layer for the UI, the other for the domain logic and the third for the data source.
+6. Generally, layer and tier are synonymous. But tier is more seen as a physical separation as in the case of a client and a server.
+<br/>
+
+## The Three Principal Layers
+1. This book focuses on presentation, domain and data source layers.
+2. Primary responsibility of the Presentation layer is to display information and capture requests from user using the rich UI. Acts as an interface b/w the user and the system.
+3. Data Source logic is about communicating w/ other systems that perform some tasks on behalf of this application such as other applications, messaging systems or in most systems it is the simple rdbms which persists data.
+4. Domain logic also known as business logic is the crux of the business which carries out business rules, validations and decides what data source logic to dispatch for which request.
+5. A single application can have multiple packages of each layer i.e. a system can have a command-line UI and also a rich UI presentation layer. Similaryly multiple data sources.
+6. Domain and Data Source should never be dependent on the presentation in such a way that anytime down the line the presentation layer be changed w/ a different library altogether w/o any ramifications on the domain and data source.
+7. Distribution, explicit multithreading, object/relational paradigms, multiplatform development and extreme performance optimization (such as 100 tps) are all complexity boosters. All carry a cost.
+<br/>
+
+# DOMAIN LOGIC PATTERNS
+1. Domain Logic can be organized into 3 primary patterns.
+2. They are : Transaction Script, Domain Model and Table Module.
+<br/>
 
