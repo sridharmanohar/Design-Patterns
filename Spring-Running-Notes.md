@@ -1,15 +1,15 @@
 
 ## Relationships
-1. Bi-dir 1-1
-   a. Example: Two entities - Employee and Cubicle.
-   b. Entity Employee references a single instance of Entity Cubicle.
-   c. Entity Cubicle references a single instance of Entity Employee.
-   d. Employee is the owner of this rel.
-   e. Employee is mapped to table EMPLOYEE.
-   f. Cubicle is mapped to table CUBICLE.
-   g. EMPLOYEE tab contains a fk to CUBICLE.
-2. Bi-dir *-1/1-*
-   a. Example:Two entities - Employee and Department .
+1. Bi-dir 1-1<br/>
+   a. Example: Two entities - Employee and Cubicle.<br/>
+   b. Entity Employee references a single instance of Entity Cubicle.<br/>
+   c. Entity Cubicle references a single instance of Entity Employee.<br/>
+   d. Employee is the owner of this rel.<br/>
+   e. Employee is mapped to table EMPLOYEE.<br/>
+   f. Cubicle is mapped to table CUBICLE.<br/>
+   g. EMPLOYEE tab contains a fk to CUBICLE.<br/>
+2. Bi-dir *-1/1-*<br/>
+   a. Example:Two entities - Employee and Department .<br/>
    b. Entity Employee references a single instance of Entity Department.
    c. Entity Department references a collection of Entity Employee.
    d. Entity Employee is the owner of the relationship.   
