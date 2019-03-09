@@ -61,13 +61,13 @@
 1. This is used by Spring to inject dependencies.
 2. This can be used on a constructor, setter or a property.
 3. For e.g., If you have a class and there are not setters for it, just add the instance of this class (in the class where it is required) like private <Classname> <varname>; and annotate it with this annotation and this class instance will be available.
-4. Similarly, you can annotate a constructor w/ this. Like:
-   class SomeClass {
-      private SomeRepo someRepo;
-      
-      @Autowired   
-      public SomeClass(SomeRepo someRepo) {
-         this.someRepo = someRep;
-      }
-    }
-    This will inject the required  repo instance.
+4. Similarly, you can annotate a constructor w/ this. Like:<br/>
+   class SomeClass {<br/>
+      private SomeRepo someRepo;<br/>
+      <br/>
+      @Autowired   <br/>
+      public SomeClass(SomeRepo someRepo) {<br/>
+         this.someRepo = someRep;<br/>
+      }<br/>
+    }<br/>
+    This will inject the required  repo instance.<br/>
