@@ -71,3 +71,6 @@
       }<br/>
     }<br/>
     This will inject the required  repo instance.<br/>
+
+## @Bean
+1. This tells spring that this particular bean has to managed by the spring container.
