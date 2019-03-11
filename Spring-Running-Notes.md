@@ -138,3 +138,34 @@ to achieve the same.
 1. This belongs to spring data jpa.
 2. This allows us to mention the query ourself still using object domain model.
 3. Alternatively, if you want to mention a native sql query then you can use the nativeQuery=true attr of this annot. and mention the query in native sql.
+
+## CommandLineRunner
+1. If you implement this interface then you will have to override it's run method.
+2. And whatever you mention in that run method will be called as soon as the spring boot application is up.
+3. So, If you want to configure a few things like logs etc, can be put in this method.
+4. Generally not required to be done.
+
+## RestTemplate
+1. This is part of Spring Web Client package and is for consuming REST web services.
+2. getForObject method of this class can make a RESTful web service call to the given endpoint and consume data which is offloaded into the desired object.
+
+## @JsonIgnoreProperties
+1. The is from jackson package.
+2. The ignoreUnknown=true attr of this annot. will help you ignore all those properties of the json (while de-serializing) which you do not want to hanlde and there is not match for them in your pojo.
+3. It is of no use if all your bean setters are a match to the json props.
+
+## @JsonAlias
+1. This is useful if you pojo field name is not a match with the json prop. name.
+2. You can then provide an alias name for your pojo field name which is a match to the json prop.
+3. Actually, jackson while de-serialization looks for a matching setter (not for the field) in the pojo and as long as your setter name is a match w/ the json prop., there is no problem.
+
+## @ManyToMany
+1. This belongs to javax persistence (jpa) package.
+2. In hibernate, by default, whenever you are trying to load a collection the fetch type is set to LAZY and this will lead to an error if you are not using hibernate session (spring uses EntityManager of its own).
+3. So when not using hibernate sessions w/ spring and if you have collections in your entities then explicitly set the fetchtype to eager.
+5. This is an attr. of this annot.
+
+## @JoinTable
+1. This is also part of jpa (javax persistence).
+2. This is for letting your jpa provider know which join tables to look for while querying for data.
+3. That is, say, you have 2 entities: Employee (mapped to EMPLOYEE table) and Projects (mapped to PROJECTS tab.) and then there is a third table EMPLOYEE_PROJECTS (which contains pk's of EMPLOYEE and PROJECTS tab.), and this third table is not an entity, so to let your jpa provider of this third impo. tab. which is not an entity in your app, use @JoinTable and its attrs.
