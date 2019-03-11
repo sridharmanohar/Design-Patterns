@@ -74,3 +74,16 @@
 
 ## @Bean
 1. This tells spring that this particular bean has to managed by the spring container.
+
+## @SpringBootApplication
+1. This indicates a config. class that declares @Bean methods and triggers auto-config and component scanning.
+2. This one annotation is equivalent to @Configuration, @EnableAutoConfiguration and @ComponentScan annotations.
+
+## @Entity
+1. This is a JPA annotation.
+2. Basically means a class can be mapped to a table.
+
+## @GeneratedValue
+1. This is a JPA annot.
+2. When using mysql always use IDENTITY as your generation strategy because in mysql there is no direct concept of sequences  (mysql has auto_increment), so because of which when you set it to AUTO it looks for the hibernate_sequence which it
+will not find and throw an error, hence use IDENTITY.
