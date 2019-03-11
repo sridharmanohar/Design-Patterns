@@ -87,3 +87,54 @@
 1. This is a JPA annot.
 2. When using mysql always use IDENTITY as your generation strategy because in mysql there is no direct concept of sequences  (mysql has auto_increment), so because of which when you set it to AUTO it looks for the hibernate_sequence which it
 will not find and throw an error, hence use IDENTITY.
+
+## @Column
+1. If the name of the field/property in your bean is in camelCase then Spring will automatically convert that into snake_case.
+2. And, if you db col name is not in snake_case then there will be an obvious mismatch and an error will be thrown during
+query execution.
+3. To avoid this, you can use the name attr of the annot. and specify the name that you want spring to use.
+
+## @Size
+1. You can use this annot. to specify the min/max size of the field and spring will take care of the validations.
+
+## @NotNull
+1. Valid as long as it is not null, but can be empty.
+
+## @NotEmpty
+1. Valid as long as it is not null and size/length is greater than zero.
+
+## @Transient
+1. If you do not want to persist any field of an entity then use this annot. to tell JPA that this particular should not
+be persisted.
+
+## @Controller
+1. This is a spring annot.
+2. This is to mark a class as a Spring MVC Controller.
+3. The job of the controller is to build a model object and find a view.
+
+## @RestController
+1. This is added in Spring 4.
+2. This is a special case of @Controller.
+3. This simply returns the object to the HTTP Response as an JSON/XML. or as a normal string.
+4. If we want to achieve this functionality but not use this annot. then we can use @Controller with @ResponseBody annot.
+to achieve the same.
+
+## @GetMapping
+1. This is a special case of @RequestMapping.
+2. This is same as @RequestMapping(method=GET).
+3. Similarly, there are other special mappings like @PutMapping, @DeleteMapping and @PostMapping.
+4. All these are for mapping web requests onto methods.
+
+## Query creation using Spring Data Repositories
+1. This allows us to query db by just mentioning the method names which have to follow a certain nomenclature.
+2. For e.g. For the entity User having properties firstname, lastname, username, password, doj etc.
+3. If you want to query a user/list of users on the basis of their firstname then simply create an interface by extending the Repository interface (pass in the entity name along with its primary key type).
+4. And, then write a method as : User findByUsername(String name).
+5. The prefix's like findBy, readBy, queryBy, countBy, getBy will be stripped by Spring and then it will look for a field by the name username in the entity (case matters).
+6. If in the above case, you mention, findByUserName then Spring will look for a field naming userName in the entity.
+7. Many keywords like And, Or etc are also supported. For complete list look at Spring Data JPA ref. doc.
+
+## @Query
+1. This belongs to spring data jpa.
+2. This allows us to mention the query ourself still using object domain model.
+3. Alternatively, if you want to mention a native sql query then you can use the nativeQuery=true attr of this annot. and mention the query in native sql.
