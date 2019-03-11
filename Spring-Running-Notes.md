@@ -169,3 +169,15 @@ to achieve the same.
 1. This is also part of jpa (javax persistence).
 2. This is for letting your jpa provider know which join tables to look for while querying for data.
 3. That is, say, you have 2 entities: Employee (mapped to EMPLOYEE table) and Projects (mapped to PROJECTS tab.) and then there is a third table EMPLOYEE_PROJECTS (which contains pk's of EMPLOYEE and PROJECTS tab.), and this third table is not an entity, so to let your jpa provider of this third impo. tab. which is not an entity in your app, use @JoinTable and its attrs.
+
+## Spring Data
+1. This is one of the projects in Spring family and this is an umbrella project.
+2. The main purpose of this is to make it easy to access different relataion, non-relational databases, map reduce frmaeworks and cloud-based data services.
+3. This umbrella project contains many sub-projects related to specific db.
+4. Some of the sub-projects under this are Spring Data JDBC, Spring Data LDAP, Spring Data MongoDB etc.
+
+## Spring Data JPA
+1. This is a sub-project under the Spring Data project.
+2. This is kind of a library which helps dealing with JPA easier.
+3. Some of its features are pagination support, @Query annot. etc.
+4. You still have to use an JPA implementation like hibernate even when using Spring Data JPA.
