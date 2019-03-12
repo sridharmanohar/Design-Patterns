@@ -5,3 +5,5 @@
 ## To clear console in command window:
 1. system clear;
 
+## To know what all procedures exists within a schema:
+1. show procedure status where db = 'THE_VAULT_00';
