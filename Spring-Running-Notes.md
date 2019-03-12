@@ -181,3 +181,9 @@ to achieve the same.
 2. This is kind of a library which helps dealing with JPA easier.
 3. Some of its features are pagination support, @Query annot. etc.
 4. You still have to use an JPA implementation like hibernate even when using Spring Data JPA.
+
+## MultipleBagFetchException
+1. You encounter this when one or more of entities have more than one collection association.
+2. Say, an entity User has two collections being loaded with @OneToMany and @ManyToMany (two Lists<>), then hibernate throws this exception.
+3. And, as far as I know, this also happens only when the fetch option is eager, I think, not sure though.
+4. Way to get around this is to use Set instead of Collection/Set.
