@@ -17,3 +17,10 @@
 1. Used to map a input field in the html to a property/field in the object to which this form has access to.
 2. Either uses * or $ to map to the field.
 4. Ex: th:field="*{firstName}" or th:field="${personalDirectory.firstName}"
+
+## th:each
+1. This is to iterate over a collection.
+2. The syntac is same as how you iterate over a collection in java.
+3. for e.g. th:each="it : ${obj}"
+4. while iterating you can also fetch iteration statistics like count, size etc.
+5. Syntax is: th:each"it, itstats : ${obj}", thehn you can use itstats as a variable expression and access its sub-props like count, size etc.
