@@ -211,3 +211,14 @@ to achieve the same.
 ## ValidationMessages.properties
 1. This is the property file which hibernate (or any jpa provider for that matter) will look for when providing error messages for the validations done using jpa validation annot.
 2. So to override the default error messages, you can use the message attr. of the jpa validation annot. and provide a corresponding custom error message in a custom ValidationMessages.properties file.
+
+## Model vs ModelMap vs ModelAndView
+1. All these are holders for model attributes and helps in passing them to the views for them to render.
+2. Model: this is from spring ui package.
+3. This is actually an interface.
+4. ModelMap: this is nothing but an extension of LinkedHashMap. 
+5. That means, this is ordered and maintains an insertion order but hence at the same time it will take more memory compared to an HashMap.
+6. The LinkedHashMap uses a doubly linked-list to keep track of insertions and hence this will take more memory compared to HashMap.
+7. ModelMap is not bound to spring mvc but still does the same task of rendering views.
+8. ModelAndView is from the spring web servlet package.
+9. This is for holding both Model and the view name, din't find it much useful it except for the fact that you can put the view name in its constructore itself (instead as a return string).
