@@ -7,3 +7,7 @@
 5. Examples of ordered collections: ArrayList, LinkedList, LinkedHashSet, LinkedHashMap
 6. Ex. of sorted collections: TreeSet, TreeMap.
 7. Ex, of unordered colelctions: Set, Map
+
+## LinkedHashMap vs HashMap
+1. LinkedHashMap is ordered and maintains an insertion order and hence at the same time it will take more memory compared to an HashMap.
+2. The LinkedHashMap uses a doubly linked-list to keep track of insertions and hence this will take more memory compared to HashMap.
