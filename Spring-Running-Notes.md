@@ -187,3 +187,7 @@ to achieve the same.
 2. Say, an entity User has two collections being loaded with @OneToMany and @ManyToMany (two Lists<>), then hibernate throws this exception.
 3. And, as far as I know, this also happens only when the fetch option is eager, I think, not sure though.
 4. Way to get around this is to use Set instead of Collection/Set.
+
+## @PathVariable
+1. This is part of Spring web annot.
+2. This is to map a method param to an incoming request param.
