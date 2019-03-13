@@ -191,3 +191,23 @@ to achieve the same.
 ## @PathVariable
 1. This is part of Spring web annot.
 2. This is to map a method param to an incoming request param.
+
+## @Valid
+1. Part of JPA validation package.
+2. This enables the validations done by using JPA annot. such as @NotNull, @Size, @NotEmpty on the pojos to be available in the front-end like thymeleaf.
+3. Say, if there is a empty validation violation, then the error message that is generated is passwd back to the view for it access and display it on the screen.
+4. If you do not use this, validation will still happen but the error message wont appear on the screen and hence the transaction fails with the stack trace.
+5. This is useful only when you are using the jpa validation annot.
+
+## BindingResult
+1. This is part of spring's validation package.
+2. This has to follow the object that is being validated otherwise this wont work.
+3. That is, in the method param, this has to be exactly after the object (with a @Valid) annot.
+4. This acts as a data binder holding the results of the validations performed.
+5. If you dont put this after the model being validated then you will get this error:
+'An Errors/BindingResult argument is expected to be declared immediately after the model attribute'
+6. And, if you don't use this at all, then the validation happens but binding the result of the validation will happen and that will throw an error.
+
+## ValidationMessages.properties
+1. This is the property file which hibernate (or any jpa provider for that matter) will look for when providing error messages for the validations done using jpa validation annot.
+2. So to override the default error messages, you can use the message attr. of the jpa validation annot. and provide a corresponding custom error message in a custom ValidationMessages.properties file.
