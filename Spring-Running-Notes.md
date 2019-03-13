@@ -207,6 +207,7 @@ to achieve the same.
 5. If you dont put this after the model being validated then you will get this error:
 'An Errors/BindingResult argument is expected to be declared immediately after the model attribute'
 6. And, if you don't use this at all, then the validation happens but binding the result of the validation will happen and that will throw an error.
+7. Bindingresult also has methods like reject (for global errors - not related to one field but related to the whole object) and rejectValue (with an option to pass custom error message) - basically this acts the validation result holder and passes the data to the view for it to render.
 
 ## ValidationMessages.properties
 1. This is the property file which hibernate (or any jpa provider for that matter) will look for when providing error messages for the validations done using jpa validation annot.
