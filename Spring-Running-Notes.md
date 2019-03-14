@@ -236,3 +236,41 @@ to achieve the same.
 6. Spring Validator also binds its errors to the BindingResult class.
 7. Both these are not mutually exclusive, so can be used together.
 8. But, both of these are only for UI level validations i.e. to perform validations on what user has entered on the screen, not for other business logic.
+
+## Autowiring fails with a NoSuchBeanDefinitionException, following could be the reasons:
+1. when the qualifying has bean not been annot. w/ @Component or @Controller or any another stereotype annot.
+2. if you autowired an interface then you must use a @Qualifier to let spring specificially know which implementation of that interface has to be wired.
+
+## @Qualifier
+1. This takes a string and that is actually used to specify the name of the qualifying bean that needs to be autowired.
+2. Used especially when you are autowiring an interface and since an interface can have multiple implementations, it becomes necessary to explicitly mention the name of the qualifying bean/implementation which we want to be auto-wired.
+
+## Stereotype Annot.
+1. @Component, @@Controller, @Indexed, @Repository, @Service - these are the stereotype annot.
+2. These annot. basically are for auto-detection and classpath scanning.
+3. If you autowire a bean then the qualifying bean has to annot. w/ one of these sterotype annot. for spring to pick them up otherwise a NoSuchBeanDefinitionException will be thrown.
+4. Basically, @Component is the base stereotype annot. and all others mentioned above are special cases of that but more or less anything will do the same.
+
+## @InitBinder
+1. This annot. is used on a method and its purpose is to customize request parameters, template uri variable and backing/command objects.
+2. command/backing objects are nothing but pojos/entities.
+3. This annot. is basically used on a method inside a controller.
+4. Methods annot. with support all arguments types that handler methods support and WebDataBinder is one of them. Command objects are not supported.
+5. The methods annot. w/ this are called in every HTTP request if the 'value' attr is not mentioned.
+6. To be more specific about which objects this applies to, mention the value attr. Value takes single/multiple names of command/request attrbs.
+7. There is no limitation to how many methods w/ this annot. can be.
+
+## WebDataBinder
+1. This extends DataBinder.
+2. This is used to register custom formatters, validators and propertyeditors.
+3. Basically, this is for binding request params to java bean objects.
+4. Whenever you are using this it is highly recommended to mentioned the allowedFields otheriwse there is a security risk because in case of an http post form submittion, a malicious client can attempt to send an application by spplying values for fields that do not exist.
+
+## DataBinder setAllowedFields
+1. Register fields that should be allowed for binding.
+2. Default is all fields.
+3. Restrict this for example to avoid unwanted modifications by malicious users when binding HTTP request parameters.
+4. HIGHLY IMPORTANT - SECURITY RISK.
+5. or use setDisallowedFields : which is to register fields that should not be allowed for binding. mark fields as disallowed to avoid unwanted modifications by malicious users when binding http req params. 
+6. If you disallow all fields then there will be nothing for data binding and might throw an error: 
+2019-03-14 14:02:28.497 DEBUG 17085 --- [nio-8080-exec-3] o.springframework.validation.DataBinder  : Field [lastname] has been removed from PropertyValues and will not be bound, because it has not been found in the list of allowed fields
