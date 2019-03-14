@@ -34,3 +34,7 @@
 1. Consist of set of utility methods for fields.
 2. You will find this in the FieldUtils class of thymeleaf spring3 utils package.
 3. Similarly other thymeleaf utils can be found in the respective thymeleaf spring utils classes.
+
+## hasErrors()
+1. This is for a particular field.
+2. syntax: ${#fields.hasErrors('firstname')}
