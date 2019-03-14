@@ -24,3 +24,13 @@
 3. for e.g. th:each="it : ${obj}"
 4. while iterating you can also fetch iteration statistics like count, size etc.
 5. Syntax is: th:each"it, itstats : ${obj}", thehn you can use itstats as a variable expression and access its sub-props like count, size etc.
+
+## hasGlobalErrors()
+1. This is to identify if there are any global errors - errors that are not specific to any field but to the entire object in question.
+2. If true, this returns a list, which needs to be processed and access each value individually using: globalErrors()
+3. e.g.: ${#fields.hasGlobalErrors()}
+
+## #fields
+1. Consist of set of utility methods for fields.
+2. You will find this in the FieldUtils class of thymeleaf spring3 utils package.
+3. Similarly other thymeleaf utils can be found in the respective thymeleaf spring utils classes.
