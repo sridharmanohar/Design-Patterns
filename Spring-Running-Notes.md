@@ -259,6 +259,7 @@ to achieve the same.
 5. The methods annot. w/ this are called in every HTTP request if the 'value' attr is not mentioned.
 6. To be more specific about which objects this applies to, mention the value attr. Value takes single/multiple names of command/request attrbs.
 7. There is no limitation to how many methods w/ this annot. can be.
+8 Not sure yet, but mostly, it looks like the 'value' for this should be same as what you set in the model attr.
 
 ## WebDataBinder
 1. This extends DataBinder.
