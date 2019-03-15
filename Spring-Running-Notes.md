@@ -275,3 +275,13 @@ to achieve the same.
 5. or use setDisallowedFields : which is to register fields that should not be allowed for binding. mark fields as disallowed to avoid unwanted modifications by malicious users when binding http req params. 
 6. If you disallow all fields then there will be nothing for data binding and might throw an error: 
 2019-03-14 14:02:28.497 DEBUG 17085 --- [nio-8080-exec-3] o.springframework.validation.DataBinder  : Field [lastname] has been removed from PropertyValues and will not be bound, because it has not been found in the list of allowed fields
+
+## Things to take care while doing DDL (insert, update, delete)
+1. You need to make sure the method (performing the ddl) is annotated with @Transactional and @Modifying annot.
+2. @Transactional can be done at class level also but @Modifying is method level.
+3. @Transactional is available in both jpa api and spring transaction api. You can use any.
+4. @Modifying is in springs data jpa.
+5. If you don't use these you'll get errors like:
+org.hibernate.hql.internal.QueryExecutionRequestException: Not supported for DML operations
+Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException
+
