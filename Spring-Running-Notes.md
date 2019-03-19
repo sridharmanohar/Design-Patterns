@@ -285,3 +285,5 @@ to achieve the same.
 org.hibernate.hql.internal.QueryExecutionRequestException: Not supported for DML operations
 Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException
 
+## Cascade ALL
+1. If you do not use this, then cascading updates/insertions will not happen.
