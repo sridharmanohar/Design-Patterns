@@ -284,6 +284,7 @@ to achieve the same.
 5. If you don't use these you'll get errors like:
 org.hibernate.hql.internal.QueryExecutionRequestException: Not supported for DML operations
 Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException
+6. Btw, these are only required if you are either using a jpa query or a native sql query. Not required when using spring data jpa.
 
 ## Cascade ALL
 1. If you do not use this, then cascading updates/insertions will not happen.
