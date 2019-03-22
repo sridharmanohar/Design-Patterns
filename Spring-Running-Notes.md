@@ -293,4 +293,4 @@ Executing an update/delete query; nested exception is javax.persistence.Transact
 1. Basic Test Framework - JUnit
 2. Mocking - Mockito
 3. Assertion - AssertJ, Hamcrest
-4. Spring Unit Test Framework - Spring Test
+4. Spring Unit Test Framework - Spring Test: Contains server-side support for testing Spring MVC applications.
