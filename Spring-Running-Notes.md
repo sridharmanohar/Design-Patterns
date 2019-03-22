@@ -288,3 +288,9 @@ Executing an update/delete query; nested exception is javax.persistence.Transact
 
 ## Cascade ALL
 1. If you do not use this, then cascading updates/insertions will not happen.
+
+## Spring Boot Test Starter brings in a wide range of dependencies for Unit Testing
+1. Basic Test Framework - JUnit
+2. Mocking - Mockito
+3. Assertion - AssertJ, Hamcrest
+4. Spring Unit Test Framework - Spring Test
