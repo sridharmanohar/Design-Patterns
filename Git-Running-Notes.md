@@ -17,3 +17,20 @@
 9. now push it: git push origin master
 10. That's it, you have made your first commit.
 11. At any point, you can always run, git status, to check the status of what files are to be commited/staging etc.
+
+## To see the difference b/w local and remote repos:
+1. git diff
+2. This will show all differences whether it is deleteions/additions/modifications.
+3. Then take a call as to what to do with the changes.
+
+## To push locally deleted files to also be deleted in remote:
+1. git diff - this will list all the files deleted (for that matter all differences b/w local and remote).
+2. git rm <file_name> - this will index the file to be deleted in the remote repo.
+3. git commit -m "comment"
+4. git push origin master
+
+## To push locally modified files to also be modified in remote:
+1. git diff - this will list all the files modified (for that matter all differences b/w local and remote).
+2. git add <file_name> - this will index the file to be modified in the remote repo.
+3. git commit -m "comment"
+4. git push origin master
