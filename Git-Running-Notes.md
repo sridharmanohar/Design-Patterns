@@ -8,6 +8,7 @@
 4. Now, this folder is automatically mapped to the remote repo (need not run any additional commands to do so).
 5. You can make changes to the files localy and run git diff to see the differences b/w the local files and the remote ones.
 6. TEST.
+7. TEST1.
 
 ## To create a git repo (in the local file system):
 1. Go to your project folder or make a separate copy of your project folder in a dedicated directory (just for git code).
