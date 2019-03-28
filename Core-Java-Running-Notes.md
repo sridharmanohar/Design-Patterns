@@ -11,3 +11,12 @@
 ## LinkedHashMap vs HashMap
 1. LinkedHashMap is ordered and maintains an insertion order and hence at the same time it will take more memory compared to an HashMap.
 2. The LinkedHashMap uses a doubly linked-list to keep track of insertions and hence this will take more memory compared to HashMap.
+
+## Marking constants final and final vs static-final
+1. It's a good practice to mark all constants as final.
+2. This clearly gives a message to the reader of the code that this field/variable cannot be modified.
+3. This encourages type-safety.
+4. Some tools like PMD also gives you indications where all fields can be marked as final.
+5. And, moreover, it is better to mark final fields as static-final because then there will be only one copy of the final field per class and not per instance.
+6. There is ideally no meaning in marking a field final and not static. Because, final means, no changes and it means it should be the same for all instances, so why not explictily mark it static as well?
+
