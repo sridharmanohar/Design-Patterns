@@ -4,6 +4,10 @@
 ## To clone a repository:
 1. Use this command to clone(download) a repository.
 2. git clone <repo url>
+3. As soon as you do this, there will be a folder created in your system with the name of the remote repo.
+4. Now, this folder is automatically mapped to the remote repo (need not run any additional commands to do so).
+5. You can make changes to the files localy and run git diff to see the differences b/w the local files and the remote ones.
+6. TEST.
 
 ## To create a git repo (in the local file system):
 1. Go to your project folder or make a separate copy of your project folder in a dedicated directory (just for git code).
