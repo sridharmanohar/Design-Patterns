@@ -11,4 +11,3 @@
 ## LinkedHashMap vs HashMap
 1. LinkedHashMap is ordered and maintains an insertion order and hence at the same time it will take more memory compared to an HashMap.
 2. The LinkedHashMap uses a doubly linked-list to keep track of insertions and hence this will take more memory compared to HashMap.
-3. Test
