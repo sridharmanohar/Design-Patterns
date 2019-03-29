@@ -187,6 +187,8 @@ to achieve the same.
 2. Say, an entity User has two collections being loaded with @OneToMany and @ManyToMany (two Lists<>), then hibernate throws this exception.
 3. And, as far as I know, this also happens only when the fetch option is eager, I think, not sure though.
 4. Way to get around this is to use Set instead of Collection/Set.
+5. Since Lists are generally needed to iterate over them in the view, and using multiple Lists with Eager fetch will lead to this exception, I have used FetchMode.SUBSELECT to overcome this problem.
+6. not very sure about the implications of using a SUBSELECT, need more analysis done on this.
 
 ## @PathVariable
 1. This is part of Spring web annot.
@@ -227,6 +229,9 @@ to achieve the same.
 ## @Validated
 1. This is part of spring validation package.
 2. Use this to annotate the class/object that is being validated using spring validator.
+3. As soon as the Spring Controller sees this annot. against an object, it's respective validator (which is set using the webdatabinder annotated w/ @InitBinder) will be called.
+4. If you dont use this annot. then the respective Validator will never be called.
+5. For instance, if there is a Model M and it has a validator MValidator (which implements Validator interface), then in the controller method (the method which gets called from the UI) the method param of the object M should have a prefix of @Validated annot. for it's validator (MValidator) to be invoked.
 
 ## Bean validation vs Spring validator
 1. Bean validation means using the javax annot. on the bean fields such as @NotEmpty, @NotNull, @Size etc. which are then automatically validated by the jpa provider (hibernate - using hibernate validator).
