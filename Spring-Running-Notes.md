@@ -208,6 +208,7 @@ to achieve the same.
 'An Errors/BindingResult argument is expected to be declared immediately after the model attribute'
 6. And, if you don't use this at all, then the validation happens but binding the result of the validation will happen and that will throw an error.
 7. Bindingresult also has methods like reject (for global errors - not related to one field but related to the whole object) and rejectValue (with an option to pass custom error message) - basically this acts the validation result holder and passes the data to the view for it to render
+
 ## ValidationMessages.properties
 1. This is the property file which hibernate (or any jpa provider for that matter) will look for when providing error messages for the validations done using jpa validation annot.
 2. So to override the default error messages, you can use the message attr. of the jpa validation annot. and provide a corresponding custom error message in a custom ValidationMessages.properties file.
@@ -259,7 +260,11 @@ to achieve the same.
 5. The methods annot. w/ this are called in every HTTP request if the 'value' attr is not mentioned.
 6. To be more specific about which objects this applies to, mention the value attr. Value takes single/multiple names of command/request attrbs.
 7. There is no limitation to how many methods w/ this annot. can be.
-8 Not sure yet, but mostly, it looks like the 'value' for this should be same as what you set in the model attr.
+8. The value attribute should be same as the model attributes key. For e.g.For model.addAttribute("someKey", object); the value of InitBinder annot. should be @InitBinder("someKey"), if you want the method w/ the binder be invoked only for that particular request.
+
+## Flow of @InitBinder and Validator
+1. As soon as you add a model to the modelAttribute, Spring immediately looks for a matching @InitBinder and such a method if present will be called.
+2. And in the @InitBinder method, if the WebDataBinder is configured with a validator by doing webDataBinder.setValidator(new <Validator_Object>) then the validator's support method is called to see compatibility between the passed object in the model against the object that is used to prove true in the supports method of the validator.
 
 ## WebDataBinder
 1. This extends DataBinder.
