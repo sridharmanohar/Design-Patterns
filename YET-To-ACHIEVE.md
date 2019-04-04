@@ -20,7 +20,7 @@
 
 ## performance
 1. din't measure the performance of spring data jpa vs native queries.
-2. as of know i don't know which one is better when.
+2. as of now i don't know which one is better when.
 3. also dint check how these approaches behave and how to solve as the application scales to some 10k, 50k and 100k users.
 4. spring boot actuator is also something which comes with default metric tools for use in prod, din't use it, don't know what it exactly is.
 
@@ -43,4 +43,10 @@
 
 ## Java 8 features
 1. din't use much of java 8 features like functional programming, lambdas, streams, optional etc.
-2. want to use them and also measure and document the performance difference against traditional java programming. 
+2. want to use them and also measure and document the performance difference against traditional java programming.
+
+## Code Review Tools
+1. din't use any code review tools.
+2. this is also pretty important to know good practices.
+3. want to focus cyclomatic complexity analysis tools.
+ 
