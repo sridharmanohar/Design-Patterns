@@ -22,3 +22,6 @@
 
 ## Integer.toString(int) vs String.valueOf(int)
 1. String.valueOf internally calls Integer.toString hence use Integer.toString always.
+
+## Performance of Java Collections
+1. https://www.baeldung.com/java-collections-complexity - This needs to be implemented.
