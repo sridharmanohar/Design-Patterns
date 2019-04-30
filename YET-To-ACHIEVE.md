@@ -1,8 +1,3 @@
-## lazy loading
-1. in case of multiple collections (esp Lists w/ eager loading), hibernate throws MultipleBagFetchException, to overcome this I used Fetch.SUBSELECT.
-2. Ideal solution is to perform lazy loading but in order to do this I need to use hibernate sessions, which I couldn't achieve.
-3. check this : https://grokonez.com/hibernate/use-hibernate-lazy-fetch-eager-fetch-type-spring-boot-mysql
-
 ## caching
 1. I din't explicitly use any cache, though I am not sure if spring boot uses something by default.
 2. I guess there are multiple cache levels (like second level cache), I din't use any.
@@ -38,8 +33,8 @@
 3. used this as reference: http://www.springboottutorial.com/spring-boot-unit-testing-and-mocking-with-mockito-and-junit
 
 ## deploying war/jar
-1. theVault was run from the application directly which is not how applications are run in prod.
-2. have to know how to make a jar/war and deploy and run a spring boot app.
+1. deployed a jar in case of spring-boot-rest-aws on aws.
+2. yet to deploy a war, may not be needed for the kind of apps I do but at-least have to know when can you do a jar and when only a war.
 
 ## Java 8 features
 1. din't use much of java 8 features like functional programming, lambdas, streams, optional etc.

@@ -66,10 +66,11 @@ be persisted.
 ## MultipleBagFetchException
 1. You encounter this when one or more of entities have more than one collection association.
 2. Say, an entity User has two collections being loaded with @OneToMany and @ManyToMany (two Lists<>), then hibernate throws this exception.
-3. And, as far as I know, this also happens only when the fetch option is eager, I think, not sure though.
-4. Way to get around this is to use Set instead of Collection/Set.
-5. Since Lists are generally needed to iterate over them in the view, and using multiple Lists with Eager fetch will lead to this exception, I have used FetchMode.SUBSELECT to overcome this problem.
-6. not very sure about the implications of using a SUBSELECT, need more analysis done on this.
+3. This can be avoided in the following ways:
+4. Convert one of the List's to a Set implementation. Of course, this approach has its own disadvantages. If you are particular on the insertion order and if you want to do index based operations then this approach is not for you.  
+5. Second option is to, use Subselect as FetchMode on one of the collections. But, this will have performance implications as hibernate will have to fetch this using subqueries. Not a very preferrred option.
+6. The third option is to use FetchType as LAZY, but then hibernate will throw a LazyInitializationException when you do this, and in order to overcome that you need to annotate the method which accesses this collection with @Transactional.
+7. The @Transaction annot. can be of the javax.persistence package or a spring annot.
 
 ## Things to take care while doing DDL (insert, update, delete)
 1. You need to make sure the method (performing the ddl) is annotated with @Transactional and @Modifying annot.
