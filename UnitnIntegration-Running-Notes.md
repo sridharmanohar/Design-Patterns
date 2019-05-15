@@ -12,6 +12,6 @@
 2. @WebMvcTest is used for testing the mvc part.
 3. @DataJpaTest is used for testing your service layer i.e. connections to db.
 4. Both these annots. will not work together, hence, you will have to separate your mvc layer test from the service layer ones.
-5. @DataJpaTest will by default an in-memory db for all the tests. You have to specify you db config. in application.properties file in resources folder.
+5. @DataJpaTest will by default use an in-memory db for all the tests. You have to specify you db config. in application.properties file in resources folder.
 6. By default, all @DataJpaTest are @Transactional i.e. they will roll-back once done. You can also explicitly mention the test w/ an @Transactional annot.
 
