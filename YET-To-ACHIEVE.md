@@ -23,11 +23,6 @@
 1. there is some pagination feature in spring data jpa but i dint implement.
 2. it should be much needed feature, should see what it does and how does it work.
 
-## exception handling
-1. dint implement any exception handling in theVault application.and this is one of the basic things.
-2. good ref. post for exception handling in spring: https://stackoverflow.com/questions/12660262/spring-mvc-hibernate-data-validation-strategies/12661291#12661291
-3. Very good post with code, can follow this: https://www.toptal.com/java/spring-boot-rest-api-error-handling  
-
 ## tdd
 1. did unit testing and db level integration testing but din't do tdd.
 2. even unit and integration testing was done sparsely, probably tdd will give more test coverage.
