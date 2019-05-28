@@ -1,8 +1,3 @@
-## caching
-1. I din't explicitly use any cache, though I am not sure if spring boot uses something by default.
-2. I guess there are multiple cache levels (like second level cache), I din't use any.
-3. Don't know how much of a performance difference these make.
-
 ## spring security
 1. Coudln't integrate spring security into theVault application.
 2. The application became too big before I could integrate it so I din't.
@@ -27,4 +22,6 @@
 1. did unit testing and db level integration testing but din't do tdd.
 2. even unit and integration testing was done sparsely, probably tdd will give more test coverage.
 3. used this as reference: http://www.springboottutorial.com/spring-boot-unit-testing-and-mocking-with-mockito-and-junit
+4. Also din't work on Test coverage.  
+
 
