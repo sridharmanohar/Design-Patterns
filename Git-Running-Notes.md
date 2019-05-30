@@ -54,3 +54,5 @@
 13. a cvcs like svn is probably a better choice when it comes for managing enterprise level projects whereas a dvcs like a git is a better choice for managing foss (free-and-open-source) projects.
 14. coz in an enterprise project, downloading full source code spanning across multiple repos to a local machine may not be a practical and secure option whereas in a foss project, especially w/ contributors all across the world, a distributed model with an ability for each developer to download the full copy of the project (along w/ its history) and work offline is a more powerful and practical approach.
 
+
+
