@@ -1,10 +1,10 @@
-### Spring Boot with Maven
+1. **Spring Boot with Maven**
     * Spring Boot provides a spring-boot-starter-security starter which aggregates Spring Security related dependencies together.  
 
-### Current Version of Spring Security
+2. **Current Version of Spring Security**
     * 5.1  
 
-### Project Modules
+3. **Project Modules**
     * **Core** - spring-security-core.jar  
         * this module is required by any application which uses Spring Security  
         * Contains core authentication and access-contol classes and interfaces  
