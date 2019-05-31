@@ -1,5 +1,5 @@
 1. **Spring Boot with Maven**
-    * Spring Boot provides a spring-boot-starter-security starter which aggregates Spring Security related dependencies together.  
+    * Spring Boot provides a *spring-boot-starter-security* starter which aggregates Spring Security related dependencies together.  
 
 2. **Current Version of Spring Security**
     * 5.1  
@@ -13,22 +13,26 @@
             * org.springframework.security.access  
             * org.springframework.security.authentication  
             * org.springframework.security.provisioning  
+            * **which of these packages have I used in the examples code I have seen so far??**  
     * **Web** - spring-security-web.jar  
         * You’ll need it if you require Spring Security web authentication services and URL-based access-control.  
         * Contains filters and related web-security infrastructure code.  
         * Main package:  
             * org.springframework.security.web  
+            * ** have I used this package in the REST API examples so far??**  
     * **Config** - spring-security-config.jar  
         * You need it if you are using the Spring Security XML namespace for configuration or Spring Security’s Java Configuration support.  
         * Contains the security namespace parsing code & Java configuration code.  
         * Main package:  
             * org.springframework.security.config  
+            * **have I used this package so far in the REST API examples so far??**  
         * None of the classes are intended for direct use in an application.  
     * **OAuth 2.0 Core** - spring-security-oauth2-core.jar  
         * It is required by applications that use OAuth 2.0 or OpenID Connect Core 1.0, such as Client, Resource Server, and Authorization Server.  
         * contains core classes and interfaces that provide support for the OAuth 2.0 Authorization Framework and for OpenID Connect Core 1.0  
         * Main package:  
             * org.springframework.security.oauth2.core  
+            * **have I used this package in the REST API examples I have seen so far??**  
     * **OAuth 2.0 Client** - spring-security-oauth2-client.jar  
         * Required by applications leveraging OAuth 2.0 Login and/or OAuth Client support.  
         * Main package:  
@@ -43,6 +47,7 @@
         * Main packages:  
             * org.springframework.security.oauth2.jwt  
             * org.springframework.security.oauth2.jose  
+            * **which of these packages have I used so far??**   
 4. **WebSecurityConfigurerAdapter and HttpSecurity** 
     * belongs to org.springframework.security.config top-level package  
     * its an abstract class  
@@ -61,10 +66,12 @@
         * Allows users to authenticate with form based login   
         * Allows users to authenticate with HTTP Basic authentication   
         * The Java Configuration equivalent of closing an XML tag is expressed using the and() method  
-    * We have to override this method to HttpSecurity for our application otherwise the default config will be effective.  
+        * **what does authorizeRequests() signify??**  
+        * **what is http basic authentication**??  
+    * We have to override this method to customize HttpSecurity for our application otherwise the default config will be effective.  
     * by the way, HttpSecurity is a final class in the same top-level package as that of WebSecurityConfigurerAdapter and it allows configuring web based security for http request.  
 5. **Java Configuration and Form Login**
-    * You might be wondering where the login form came from when you were prompted to log in, since we made no mention of any HTML files or JSPs  
+    * In case of a webapp, you might be wondering where the login form came from when you were prompted to log in, since we made no mention of any HTML files or JSPs  
     * Since Spring Security’s default configuration does not explicitly set a URL for the login page, Spring Security generates one automatically  
     * While the automatically generated log in page is convenient to get up and running quickly, most applications will want to provide their own log in page. To do so we can update our configuration as seen below:  
     *protected void configure(HttpSecurity http) throws Exception {*  
@@ -100,8 +107,8 @@
     * When using the WebSecurityConfigurerAdapter, logout capabilities are automatically applied.  
     * The default is that accessing the URL /logout will log the user out by:  
         * Invalidating the HTTP Session   
-        * Cleaning up any RememberMe authentication that was configured   
-        * Clearing the SecurityContextHolder  
+        * Cleaning up any RememberMe authentication that was configured **what is RememberMe??**     
+        * Clearing the SecurityContextHolder  **what does a SecurityContextHolder contain??**  
         * Redirect to /login?logout  
     * however, you also have various options to further customize your logout requirements:
       *protected void configure(HttpSecurity http) throws Exception {*  
@@ -123,20 +130,27 @@
 8. **Major building blocks of Spring Security**:
     * SecurityContextHolder  
         * to provide access to SecurityContext  
+        * **package? class or interface??**  
     * SecurityContext  
         * to hold the Authentication and possibly request-specific security information  
+        * **package? class or interface??**  
     * Authentication  
         * to represent the principal in a Spring Security-specific manner.  
+        * **what is a principal??**  
+        * **package? class or interface??**  
     * GrantedAuthority  
         * to reflect the application-wide permissions granted to a principal.  
+        * **package? class or interface??**  
+        * **what does this exactly contain? ROLES??**  
     * UserDetails  
         * to provide the necessary information to build an Authentication object from your application’s DAOs or other source of security data.  
+        * **package? class or interface??**  
     * UserDetailsService  
         * to create a UserDetails when passed in a String-based username (or certificate ID or the like).   
         * this is part of top-level package: org.springframework.security.core  
         * this is an interface  
         * it has a single method:  
-            * UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;  
+            * *UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;*    
             * The returned UserDetails is an interface that provides getters that guarantee non-null provision of authentication information such as the username, password, granted authorities and whether the user account is enabled or disabled.  
         * This can be implemented in 2 ways:  
             * In-memory authentication: 
@@ -147,21 +161,23 @@
                 * Internally Spring JDBC is used  
                 * This is a class  
                 * this implementation assumes a default schema consisting of 2 tables - users and authorities  
-                * users table: username, password and enabled  
-                * authorities table: username, authority  
+                * *users table*: username, password and enabled  
+                * *authorities table*: username, authority  
+    * **how does spring security fit in applications like the REST API examples that I have seen which has OAuth also?? I know Spring Security does the authentication and OAuth does the authorization but what exactly does spring security authenticate in such application and when is it called, before OAuth or after??**  
 9. **What is authentication in Spring Security?**
-   * Let’s consider a standard authentication scenario that everyone is familiar with.  
+    * Lets consider a standard authentication scenario that everyone is familiar with.  
         * A user is prompted to log in with a username and password.  
         * The system (successfully) verifies that the password is correct for the username.   
         * The context information for that user is obtained (their list of roles and so on).   
         * A security context is established for the user   
         * The user proceeds, potentially to perform some operation which is potentially protected by an access control mechanism which checks the required permissions for the operation against the current security context information.   
     * The first three items constitute the authentication process so we’ll take a look at how these take place within Spring Security.  
-        * The username and password are obtained and combined into an instance of UsernamePasswordAuthenticationToken (an instance of the Authentication interface)  
-        * The token is passed to an instance of AuthenticationManager for validation.   
+        * The username and password are obtained and combined into an instance of *UsernamePasswordAuthenticationToken* (an instance of the Authentication interface)  
+        * The token is passed to an instance of AuthenticationManager for validation. **you mean an instance of UsernamePasswordAuthenticationToken is passed??**  
         * The AuthenticationManager returns a fully populated Authentication instance on successful authentication.   
         * The security context is established by calling SecurityContextHolder.getContext().setAuthentication(…​), passing in the returned authentication object.   
         * Basically, A user is authenticated when the SecurityContextHolder contains a fully populated Authentication object.  
+        * **in which package are UsernamePasswordAuthenticationToken, AuthenticationManager, Authentication, SecurityContextHolder are present??**  
 10. **Authentication Mechanism**
     * This is true mainly in case of web application authentication  
     * Once your browser submits your authentication credentials (either as an HTTP form post or HTTP header) there needs to be something on the server that "collects" these authentication details.  
@@ -181,7 +197,7 @@
             * you need to be certain that your application is using PATCH, POST, PUT, and/or DELETE for anything that modifies state.  
             * This is not a limitation of Spring Security’s support, but instead a general requirement for proper CSRF prevention. The reason is that including private information in an HTTP GET can cause the information to be leaked.  
         * Configure CSRF Protection  
-            * The next step is to include Spring Security’s CSRF protection within your application which is by default enabled since Spring Security 4.0  
+            * The next step is to include Spring Security’s CSRF protection within your application **which is by default enabled since Spring Security 4.0**    
             * If you want to disable this, following is how you do it with java config.  
                 * in the class which extends WebSecurityConfigurerAdapter, override the configure(HttpSecurity http) method and disable csrf in this.  
         * Including CSRF token in form submissions and ajax and json requests  
@@ -420,12 +436,17 @@
             * Including the dependencies.   
                 * To use the auto-configuration features in this library, you need spring-security-oauth2  
                 * and spring-security-oauth2-autoconfigure  
+                * **what is the purpose of autoconfigure? why havent this been used in the examples I have seen so far??**  
                 * Note that you need to specify the version for spring-security-oauth2-autoconfigure, since it is not managed by Spring Boot any longer, though it should match Boot’s version anyway.  
                 * For JWT support, you also need spring-security-jwt              
             * Including the @EnableAuthorizationServer annotation.   
                 * Similar to other Spring Boot @Enable annotations, you can add the @EnableAuthorizationServer annotation to the class that contains your main method  
                 * Adding this annotation imports other Spring configuration files that add a number of reasonable defaults, such as how tokens ought to be signed, their duration, and what grants to allow.  
             * Specifying at least one client ID and secret pair.   
+                * **when are these details used for??**  
+                * **are these same as identifier in oauth2 which is used as username and pwd?**  
+                * **is this common for all clients??**  
+                * **what is the diff b/w these and the ones in spring security java config ??**  
 28. **How to Switch Off OAuth2 Boot’s Auto Configuration**
     * Basically, the OAuth2 Boot project creates an instance of AuthorizationServerConfigurer with some reasonable defaults:  
         * It registers a NoOpPasswordEncoder (overriding the Spring Security default)   
@@ -443,6 +464,8 @@
             *}*  
         *}*  
         * The preceding configuration causes OAuth2 Boot to no longer retrieve the client from environment properties and now falls back to the Spring Security password encoder default.  
+        * **what pwds are we encoding here??**  
+        * **what type of grants have I seen in the examples I have seen so far in spring security + Oauth??**  
 29. **Resource Server (Oauth2 and SpringBoot)**
     * Spring Security OAuth2 Boot simplifies protecting your resources using Bearer Token authentication in two different token formats: JWT and Opaque.  
     * Minimal OAuth2 Boot Configuration  
