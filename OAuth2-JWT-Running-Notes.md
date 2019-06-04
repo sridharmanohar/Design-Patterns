@@ -44,7 +44,7 @@
             * this is a simplified auth. code flow optimized for clients implemented in a browser using a scripting language like javascript.  
             * here instead of issuing the auth. code, the client is issued an access token directly.  
             * this is generally used with mobile apps or web apps - apps that run on the user's device.  
-        * Resource Owner password Creds:  
+        * Resource Owner password Creds (also known as Password grant type):  
             * the resource owner pwd creds (i.e. username and pwd) can be used directly as an auth. grant to obtain an access token.  
             * this should only be used when there is a high degree of trust b/w the resource owner and tthe client.  
             * but even though the resource owner creds are with client, they are with the client for a single reqest and are then exchanged for an access token.  
@@ -304,3 +304,14 @@ with an "exp" claim value that is unreasonably far in the future.
     * The downside of not looking up access tokens with each call is that a JWT cannot be revoked. For that reason, yout require the ability to immediately revoke access.  
     * A few years ago, before the JWT revolution, a <token> was just a string with no intrinsic meaning, e.g. 2pWS6RQmdZpE0TQ93X. That token was then looked-up in a database, which held the claims for that token. The downside of this approach is that DB access (or a cache) is required everytime the token is used.  
     * JWTs encode and verify (via signing) their own claims. This allows folks to issue short-lived JWTs that are stateless (read: self-contained, don't depend on anybody else). They do not need to hit the DB. This reduces DB load and simplifies application architecture.  
+
+30. **OAuth2 Scopes**
+    * OAuth 2.0 scopes provide a way to limit the amount of access that is granted to an access token.  
+    * For example, an access token issued to a client app may be granted READ and WRITE access to protected resources, or just READ access.  
+    * You can implement your APIs to enforce any scope or combination of scopes you wish.  
+    * So, if a client receives a token that has READ scope, and it tries to call an API endpoint that requires WRITE access, the call will fail.  
+    * You can name your scopes anything you wish. In simple cases, it is fine to use simple names like READ, WRITE, or DELETE. In more complex scenarios where there are multiple API products, each with multiple resources which each support multiple distinct actions, a WRITE on one resource is not equivalent to a WRITE on another resource. In these cases, it's a best practice to assign each scope a unique name, in the form of an URN  
+
+
+## Notes
+1. https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2 - This is a very good listing of all types of grant flows with the url examples.
