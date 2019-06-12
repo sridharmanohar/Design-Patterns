@@ -48,28 +48,6 @@
             * org.springframework.security.oauth2.jwt  
             * org.springframework.security.oauth2.jose  
             * **which of these packages have I used so far??**   
-4. **WebSecurityConfigurerAdapter and HttpSecurity** 
-    * belongs to org.springframework.security.config top-level package  
-    * its an abstract class  
-    * its configure(HttpSecurity http) provides a default config. which is as below:  
-        *protected void configure(HttpSecurity http) throws Exception {*  
-            *http*  
-            *.authorizeRequests()*  
-                *.anyRequest().authenticated()*  
-                *.and()*  
-            *.formLogin()*  
-                *.and()*  
-            *.httpBasic();*  
-        *}*  
-    * which bascially says:  
-        * Ensures that any request to our application requires the user to be authenticated   
-        * Allows users to authenticate with form based login   
-        * Allows users to authenticate with HTTP Basic authentication   
-        * The Java Configuration equivalent of closing an XML tag is expressed using the and() method  
-        * **what does authorizeRequests() signify??**  
-        * **what is http basic authentication**??  
-    * We have to override this method to customize HttpSecurity for our application otherwise the default config will be effective.  
-    * by the way, HttpSecurity is a final class in the same top-level package as that of WebSecurityConfigurerAdapter and it allows configuring web based security for http request.  
 5. **Java Configuration and Form Login**
     * In case of a webapp, you might be wondering where the login form came from when you were prompted to log in, since we made no mention of any HTML files or JSPs  
     * Since Spring Security’s default configuration does not explicitly set a URL for the login page, Spring Security generates one automatically  
@@ -107,8 +85,8 @@
     * When using the WebSecurityConfigurerAdapter, logout capabilities are automatically applied.  
     * The default is that accessing the URL /logout will log the user out by:  
         * Invalidating the HTTP Session   
-        * Cleaning up any RememberMe authentication that was configured **what is RememberMe??**     
-        * Clearing the SecurityContextHolder  **what does a SecurityContextHolder contain??**  
+        * Cleaning up any RememberMe authentication that was configured 
+        * Clearing the SecurityContextHolder  
         * Redirect to /login?logout  
     * however, you also have various options to further customize your logout requirements:
       *protected void configure(HttpSecurity http) throws Exception {*  
@@ -127,43 +105,6 @@
     * logoutSuccessUrl has The URL to redirect to after logout has occurred. The default is /login?logout  
     * If a custom LogoutSuccessHandler is provided as in the above example then the logoutSuccessUrl() is ignored.  
     * Generally, in order to customize logout functionality, you can add LogoutHandler and/or LogoutSuccessHandler implementations. For many common scenarios, these handlers are applied under the covers when using the fluent API.  
-8. **Major building blocks of Spring Security**:
-    * SecurityContextHolder  
-        * to provide access to SecurityContext  
-        * **package? class or interface??**  
-    * SecurityContext  
-        * to hold the Authentication and possibly request-specific security information  
-        * **package? class or interface??**  
-    * Authentication  
-        * to represent the principal in a Spring Security-specific manner.  
-        * **what is a principal??**  
-        * **package? class or interface??**  
-    * GrantedAuthority  
-        * to reflect the application-wide permissions granted to a principal.  
-        * **package? class or interface??**  
-        * **what does this exactly contain? ROLES??**  
-    * UserDetails  
-        * to provide the necessary information to build an Authentication object from your application’s DAOs or other source of security data.  
-        * **package? class or interface??**  
-    * UserDetailsService  
-        * to create a UserDetails when passed in a String-based username (or certificate ID or the like).   
-        * this is part of top-level package: org.springframework.security.core  
-        * this is an interface  
-        * it has a single method:  
-            * *UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;*    
-            * The returned UserDetails is an interface that provides getters that guarantee non-null provision of authentication information such as the username, password, granted authorities and whether the user account is enabled or disabled.  
-        * This can be implemented in 2 ways:  
-            * In-memory authentication: 
-                * where a persistent data store is not needed and a memory map is supplied  
-                * but this approach is basically for testing purposes only    
-            * JdbcDaoImpl: 
-                * this implementation of UserDetailsService can obtain authentication information from a JDBC data source  
-                * Internally Spring JDBC is used  
-                * This is a class  
-                * this implementation assumes a default schema consisting of 2 tables - users and authorities  
-                * *users table*: username, password and enabled  
-                * *authorities table*: username, authority  
-    * **how does spring security fit in applications like the REST API examples that I have seen which has OAuth also?? I know Spring Security does the authentication and OAuth does the authorization but what exactly does spring security authenticate in such application and when is it called, before OAuth or after??**  
 9. **What is authentication in Spring Security?**
     * Lets consider a standard authentication scenario that everyone is familiar with.  
         * A user is prompted to log in with a username and password.  
@@ -173,11 +114,10 @@
         * The user proceeds, potentially to perform some operation which is potentially protected by an access control mechanism which checks the required permissions for the operation against the current security context information.   
     * The first three items constitute the authentication process so we’ll take a look at how these take place within Spring Security.  
         * The username and password are obtained and combined into an instance of *UsernamePasswordAuthenticationToken* (an instance of the Authentication interface)  
-        * The token is passed to an instance of AuthenticationManager for validation. **you mean an instance of UsernamePasswordAuthenticationToken is passed??**  
+        * The token is passed to an instance of AuthenticationManager for validation. 
         * The AuthenticationManager returns a fully populated Authentication instance on successful authentication.   
         * The security context is established by calling SecurityContextHolder.getContext().setAuthentication(…​), passing in the returned authentication object.   
         * Basically, A user is authenticated when the SecurityContextHolder contains a fully populated Authentication object.  
-        * **in which package are UsernamePasswordAuthenticationToken, AuthenticationManager, Authentication, SecurityContextHolder are present??**  
 10. **Authentication Mechanism**
     * This is true mainly in case of web application authentication  
     * Once your browser submits your authentication credentials (either as an HTTP form post or HTTP header) there needs to be something on the server that "collects" these authentication details.  
