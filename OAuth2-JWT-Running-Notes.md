@@ -86,10 +86,10 @@
 
 10. **Oauth2 Client Identifier**
     * The authorization server issues the registered client a client identifier -- a unique string representing the registration information provided by the client.  
+    * Assume this as the client username that we use in spring oauth2 flows.  
 
 11. **OAuth2 Client Authentication**
     * Confidential clients are typically issued (or establish) a set of client credentials used for authenticating with the authorization server (e.g., password, public/private key pair).  
-    * **So this is apart from the auth. grant that is issued by the resource owner? And, if yes, then should the client present these creds also (along with the grant) while requesting the auth. server for access token??**  
 
 12. **OAuth2 Client Password**
     * Clients in possession of a client password MAY use the HTTP Basic authentication scheme to authenticate with the auth. server.  
@@ -97,20 +97,24 @@
     * the client pwd is encoded using the same algo and used as the pwd.  
     * The authorization server MUST support the HTTP Basic authentication scheme for authenticating clients that were issued a client password.  
     * So, basically, the identifier becomes the username and the pwd (if any) becomes the password for the client while authenticating with the auth. server for access token request.  
-    * **what is http basic authentication??**  
-    * **what is application/x-www-form-urlencoded??**  
 
+13. **http basic authentication??**  
+In the context of an HTTP transaction, basic access authentication is a method for an HTTP user agent (e.g. a web browser) to provide a user name and password when making a request. In basic HTTP authentication, a request contains a header field of the form Authorization: Basic <credentials>, where credentials is the base64 encoding of id and password joined by a single colon (:).  
+HTTP Basic authentication (BA) implementation is the simplest technique for enforcing access controls to web resources because it does not require cookies, session identifiers, or login pages; rather, HTTP Basic authentication uses standard fields in the HTTP header, removing the need for handshakes.  
+The BA mechanism provides no confidentiality protection for the transmitted credentials. They are merely encoded with Base64 in transit, but not encrypted or hashed in any way. Therefore, Basic Authentication is typically used in conjunction with HTTPS to provide confidentiality.  
+ 
 13. **OAuth2 Protocol Endpoints**
     * There are 2 protocol endpoints:  
         * Auth. endpoint:  
             * used by the client to obtain authorization from the resource owner.  
             * Before this, The authorization server  MUST first verify the identity of the resource owner. The way in which the authorization server authenticates the resource owner (e.g., username and password login, session cookies) is beyond the scope of this specification.  
             * The authorization server MUST support the use of the HTTP "GET" method for the authorization endpoint and MAY support the use of the "POST" method as well.  
-            * **but when does this happen in the normal flow? I recall using only token endpoint (fetching access token) and then  using that to access protected resources, so when does the auth. endpoint exactly happen in the examples that I have done so far??**  
+            * This endpoint is basically at /aouth/authorize and in all the flows that I have used I did not touch this endpoint since for password grant flow you do no use this endpoint. This is for other grant type flows.  
         * Token endpoint:  
             * this is used by the client for obtaining an access token by presenting its auth. grant or refresh token.  
             * The token endpoint is used with every authorization grant except for the implicit grant type (since an access token is issued directly).   
             * The client MUST use the HTTP "POST" method when making access token requests.  
+            * This endpoint is at /oauth/token and this is what I have used in all my implementations because I used password grant type flow and this the endpoint to hit for that flow.
 
 14. **OAuth2 Access Token Scope**
     * The authorization and token endpoints allow the client to specify the scope of the access request using the "scope" request parameter.  
@@ -118,6 +122,7 @@
     * The value of the scope parameter is expressed as a list of space-delimited, case-sensitive strings.  
     * The strings are defined by the authorization server.  If the value contains multiple space-delimited strings, their order does not matter.  
     * The authorization server MAY fully or partially ignore the scope requested by the client.  
+    * This scope is stored in the oauth_client_details table under the column 'scope' and values are inserted in a comma separate way.  
 
 15. **OAuth2 Issuing an Access Token**
     * If the access token request is valid and authorized, the authorization server issues an access token and optional refresh token.  
@@ -217,25 +222,6 @@
     * A JWT is represented as a sequence of URL-safe parts separated by period ('.') characters.  
     * Each part contains a base64url-encoded value.  
 
-23. **JSON JWT Example**
-    * The following example JOSE Header declares that the encoded object is a JWT, and the JWT is a JWS that is MACed using the HMAC SHA-256 algorithm:  
-        *{"typ":"JWT",*    
-         *"alg":"HS256"}*    
-    * **what is JOSE header?? where can we find in a jwt??**  
-
-24. **JSON JWT Claims**
-    * The JWT Claims Set represents a JSON object whose members are the claims conveyed by the JWT.  
-    * The Claim Names within a JWT Claims Set MUST be unique.  
-    * There are three classes of JWT Claim Names:  
-        * Registered Claim Names, 
-        * Public Claim Names, and 
-        * Private Claim Names. 
-        * Not going into its details.  
-    * The following is an example of a JWT Claims Set:  
-        *{"iss":"joe",*    
-        *"exp":1300819380,*    
-        *"http://example.com/is_root":true}*    
-
 25. **OAuth2 and JWT**
     * The OAuth 2.0 Authorization Framework [RFC6749] provides a method for making authenticated HTTP requests to a resource using an access token.  
     * Access tokens are issued to third-party clients by an authorization server (AS) with the (sometimes implicit) approval of the resource owner.  
@@ -245,57 +231,6 @@
     * OAuth also allows for the definition of new extension grant types to support additional clients or to provide a bridge between OAuth and other trust frameworks.  
     * Finally, OAuth allows the definition of additional authentication mechanisms to be used by clients when interacting with the authorization server.  
     * JWT Bearer Token can be used to request an access token and JWT can also be used as a client authentication mechanism.  
-
-26. **Using JWTs as Authorization Grants (OAuth2)**
-    * Here is how you can use a Bearer JWT as an authorization grant to request the client for an access token request.  
-    * Description of some of the parameters to be used in the access token request with a jwt bearer token auth. grant.  
-        * The value of the "grant_type" is "urn:ietf:params:oauth:grant-type:jwt-bearer".  
-        * The value of the "assertion" parameter MUST contain a single JWT.  
-        * **what is an assertion here??**  
-        * The following example demonstrates an access token request with a JWT as an authorization grant (with extra line breaks for display purposes only):  
-            *POST /token.oauth2 HTTP/1.1*    
-            *Host: as.example.com*    
-            *Content-Type: application/x-www-form-urlencoded*    
-            *grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer*    
-            *&assertion=eyJhbGciOiJFUzI1NiIsImtpZCI6IjE2In0.*    
-    * The following examples illustrate what a conforming JWT and an access token request would look like.  
-        * The example shows a JWT issued and signed by the system entity identified as "https://jwt-idp.example.com".  
-        * The subject of the JWT is identified by email address as "mike@example.com".  
-        * The intended audience of the JWT is "https://jwt-rp.example.net", which is an identifier with which the authorization server identifies itself.   
-        * The JWT is sent as part of an access token request to the authorization server's token endpoint at "https://authz.example.net/token.oauth2".  
-        * Below is the JSON object that could be encoded to produce the JWT Claims Set for a JWT:  
-            *{"iss":"https://jwt-idp.example.com",*    
-            *"sub":"mailto:mike@example.com",*    
-            *"aud":"https://jwt-rp.example.net",*    
-            *"nbf":1300815780,*    
-            *"exp":1300819380,*    
-            *"http://claims.example.com/member":true}*    
-    * The following example JSON object, used as the header of a JWT, declares 
-        * that the JWT is signed with the Elliptic Curve Digital Signature Algorithm (ECDSA) P-256 SHA-256 
-        * using a key identified by the "kid" value "16".  
-            *{"alg":"ES256","kid":"16"}*    
-    * To present the JWT with the claims and header shown in the previous example as part of an access token request, for example, the client might make the following HTTPS request (with extra line breaks for display purposes only):  
-        *POST /token.oauth2 HTTP/1.1*    
-        *Host: authz.example.net*    
-        *Content-Type: application/x-www-form-urlencoded*    
-        *grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer*    
-        *&assertion=eyJhbGciOiJFUzI1NiIsImtpZCI6IjE2In0.*    
-    * **just not able to relate to or understand where in the example code with jwt has this entire thing come??**        
-
-27. **Using JWTs for Client Authentication (OAuth2)**
-    * Not going into its details.  
-
-28. **JWT Format (OAuth2)** 
-    * The JWT MUST contain an "iss" (issuer) claim that contains a unique identifier for the entity that issued the JWT.  
-    * The JWT MUST contain a "sub" (subject) claim identifying the principal that is the subject of the JWT.  
-    * For the authorization grant, the subject typically identifies an authorized accessor for which the access token is being requested  
-    * For client authentication, the subject MUST be the "client_id" of the OAuth client.  
-    * The JWT MUST contain an "aud" (audience) claim containing a value that identifies the authorization server as an intended audience. The token endpoint URL of the authorization server MAY be used as a value for an "aud" element to identify the authorization server as an intended audience of the JWT.  
-    * The JWT MUST contain an "exp" (expiration time) claim that limits the time window during which the JWT can be used. Note that the authorization server may reject JWTs
-with an "exp" claim value that is unreasonably far in the future.  
-    * There are other optional claims also, not going into those.  
-    * The JWT MUST be digitally signed or have a Message Authentication Code (MAC) applied by the issuer.  
-    * **again, not sure If I saw any of these in the oauth+jwt+springboot code example??**  
 
 29. **Random Notes on OAuth2, JWT**
     * While a JWT is longer than most access tokens, theyre able to avoid database lookups because the JWT contains a base64 encoded version of the data you need to determine the identity and scope of access.  
@@ -312,6 +247,14 @@ with an "exp" claim value that is unreasonably far in the future.
     * So, if a client receives a token that has READ scope, and it tries to call an API endpoint that requires WRITE access, the call will fail.  
     * You can name your scopes anything you wish. In simple cases, it is fine to use simple names like READ, WRITE, or DELETE. In more complex scenarios where there are multiple API products, each with multiple resources which each support multiple distinct actions, a WRITE on one resource is not equivalent to a WRITE on another resource. In these cases, it's a best practice to assign each scope a unique name, in the form of an URN  
 
+31. **Abstract Protocol Flow**
+    The application requests authorization to access protected resources from the user/resource owner  
+    If the user authorized the request, the application receives an authorization grant  
+    The application requests an access token from the authorization server (API) by presenting authentication of its own identity, and the authorization grant  
+    If the application identity is authenticated and the authorization grant is valid, the authorization server (API) issues an access token to the application.   Authorization is complete.  
+    The application requests the resource from the resource server (API) and presents the access token for authentication  
+    If the access token is valid, the resource server (API) serves the resource to the application  
+The actual flow of this process will differ depending on the authorization grant type in use, but this is the general idea.  
 
 ## Notes
 1. https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2 - This is a very good listing of all types of grant flows with the url examples.
