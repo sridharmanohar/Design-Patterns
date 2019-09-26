@@ -296,7 +296,7 @@
 <br/>
 
 # WEB PRESETATION PATTERNS
-1. Basically 2 mains forms of structuring a program on a web server: scripts and server pages.
+1. Basically 2 main forms of structuring a program on a web server: scripts and server pages.
 2. A CGI Script or a Servlet is an example of a Script but writing HTML in these becomes very difficult.
 3. JSP, PHP and ASP are examples of server pages. HTML and processing logic both can be embedded in the server page.
 4. Server pages works well for little processing tasks. Things get a lot more messy when many decisions are to be made based on the i/p.
@@ -525,8 +525,29 @@
 <br/>
 
 
+3-layered arch:
+
+Presentation Layer
+MVC, Page Controller, Front Controller, Application Controller, Template View, Transform View, Two-Step View
+
+Domain-Logic Layer
+Service Layer
+Transaction Script, Domain Model, Table Module
+
+Data Source Layer
+Row Data Gateway, Table Data Gateway, Data Mapper, Record Set
+
+O/R Behavioral Patterns
+O/R Structural Patterns
+O/R Meta-Data Mapping Patterns
+Offline Concurrency Patterns
+Session State Patterns
+Distribution Patterns
 
 
+https://github.com/donnemartin/system-design-primer
+https://github.com/binhnguyennus/awesome-scalability
+https://github.com/futurice/backend-best-practices
 
 
 
