@@ -6,8 +6,6 @@
  . eclipse java ee developer tools 3.12  
  . eclipse marketplace client 1.7.5  
  . eclipse web developer tools 3.12
- . JDepend4Eclipse 1.2.4  
- . pmd-eclipse-plugin 4.2.0  
  . spotbugs eclipse plugin 3.1.5  
  . tm terminal 4.0.20150430  
  . egit - git integration for eclipse 5.2  
