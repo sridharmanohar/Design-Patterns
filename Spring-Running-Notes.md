@@ -49,11 +49,11 @@
 
 9. **@JsonIgnoreProperties**
     * The is from jackson package.  
-    * The ignoreUnknown=true attr of this annot. will help you ignore all those properties of the json (while de-serializing) which you do not want to hanlde and there is not match for them in your pojo.  
+    * The ignoreUnknown=true attr of this annot. will help you ignore all those properties of the json (while de-serializing i.e. while converting/transforming json string into a java object) which you do not want to hanlde and there is no match for them in your pojo.  
     * It is of no use if all your bean setters are a match to the json props.  
 
 10. **@JsonAlias**
-    * This is useful if you pojo field name is not a match with the json prop. name.  
+    * This is useful if your pojo field name is not a match with the json prop. name.  
     * You can then provide an alias name for your pojo field name which is a match to the json prop.  
     * Actually, jackson while de-serialization looks for a matching setter (not for the field) in the pojo and as long as your setter name is a match w/ the json prop., there is no problem.  
 
